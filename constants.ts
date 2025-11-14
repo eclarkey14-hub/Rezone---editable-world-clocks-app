@@ -1,4 +1,4 @@
-export const APP_NAME = "ChronoZone";
+export const APP_NAME = "Rezone";
 
 // A curated list of popular timezones to start with, though we will try to support all system zones.
 export const POPULAR_TIMEZONES = [

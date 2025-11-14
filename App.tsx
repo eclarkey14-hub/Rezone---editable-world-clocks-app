@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ClockConfig, ClockMode, TimeState } from './types';
 import { ClockCard } from './components/clocks/ClockCard';
-import { PlusIcon, ClockIcon, MonitorIcon, GlobeIcon, ResetIcon } from './components/icons/Icons';
+import { PlusIcon, ClockIcon, MonitorIcon, GlobeIcon, ResetIcon, HelpIcon } from './components/icons/Icons';
 import { Modal } from './components/ui/Modal';
 import { TimezonePicker } from './components/TimezonePicker';
 import { TimeEditor } from './components/TimeEditor';
@@ -23,6 +23,7 @@ const App: React.FC = () => {
 
   // Modals
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [editingClock, setEditingClock] = useState<ClockConfig | null>(null);
 
   // Refs for timer
@@ -92,12 +93,21 @@ const App: React.FC = () => {
           <div className="p-2 bg-brand-500/10 rounded-lg">
             <GlobeIcon className="w-6 h-6 text-brand-500" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+          <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent hidden sm:block">
             {APP_NAME}
           </h1>
         </div>
 
         <div className="flex items-center gap-3">
+           {/* Help Button */}
+           <button
+             onClick={() => setIsHelpModalOpen(true)}
+             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+           >
+             <HelpIcon className="w-4 h-4" />
+             How to use Rezone
+           </button>
+
            {/* Mode Switcher */}
            <div className="flex bg-slate-900 p-1 rounded-lg border border-slate-800">
              <button
@@ -196,6 +206,56 @@ const App: React.FC = () => {
             onReset={handleResetToLive}
           />
         )}
+      </Modal>
+
+      <Modal
+        isOpen={isHelpModalOpen}
+        onClose={() => setIsHelpModalOpen(false)}
+        title="How to use Rezone"
+      >
+        <div className="space-y-6">
+          <p className="text-slate-300 leading-relaxed">
+            Rezone helps you instantly preview what the time will be in different cities without doing any time-zone math.
+          </p>
+          
+          <div className="space-y-5">
+            <div className="flex gap-4">
+               <div className="flex-none mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(14,165,233,0.6)]" />
+               <div>
+                 <h3 className="font-semibold text-slate-100 text-sm mb-1">Add a city</h3>
+                 <p className="text-sm text-slate-400 leading-relaxed">Tap Add City, then search by city or country to create a new clock.</p>
+               </div>
+            </div>
+            <div className="flex gap-4">
+               <div className="flex-none mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(14,165,233,0.6)]" />
+               <div>
+                 <h3 className="font-semibold text-slate-100 text-sm mb-1">Remove a clock</h3>
+                 <p className="text-sm text-slate-400 leading-relaxed">Tap the X on any clock to delete it.</p>
+               </div>
+            </div>
+            <div className="flex gap-4">
+               <div className="flex-none mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(14,165,233,0.6)]" />
+               <div>
+                 <h3 className="font-semibold text-slate-100 text-sm mb-1">Switch analog/digital</h3>
+                 <p className="text-sm text-slate-400 leading-relaxed">Use the toggle in the top-right to switch between clock styles.</p>
+               </div>
+            </div>
+            <div className="flex gap-4">
+               <div className="flex-none mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(14,165,233,0.6)]" />
+               <div>
+                 <h3 className="font-semibold text-slate-100 text-sm mb-1">Edit a time</h3>
+                 <p className="text-sm text-slate-400 leading-relaxed">Tap any clock and enter a new time — Rezone will update every other clock to show the equivalent time in their zones.</p>
+               </div>
+            </div>
+            <div className="flex gap-4">
+               <div className="flex-none mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(14,165,233,0.6)]" />
+               <div>
+                 <h3 className="font-semibold text-slate-100 text-sm mb-1">Return to live time</h3>
+                 <p className="text-sm text-slate-400 leading-relaxed">Tap Reset to Live to return all clocks to the current real time.</p>
+               </div>
+            </div>
+          </div>
+        </div>
       </Modal>
 
     </div>
